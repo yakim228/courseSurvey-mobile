@@ -5,5 +5,6 @@ package com.ipnetinstitute.csc394.mobile.data.model
  */
 data class LoggedInUser(
     val userId: String,
-    val displayName: String
+    val displayName: String,
+    var userName: String
 )
