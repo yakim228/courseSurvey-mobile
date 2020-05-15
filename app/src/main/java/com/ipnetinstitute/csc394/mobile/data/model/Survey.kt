@@ -4,9 +4,9 @@ import java.util.*
 
 class Survey(var title: String, var description: String, var beginMessage: String, var endMessage: String,
              var beginDate: Date, var endDate: Date, var status: Boolean,
-             id: Long,
+             id: Int,
              createDate: Date,
              modDate: Date,
-             modBy: Long
+             modBy: Int
 ) : BaseModel(id, createDate, modDate, modBy) {
 }
