@@ -8,11 +8,12 @@ import com.ipnetinstitute.csc394.mobile.R
 
 class SurveyListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-    @BindView(R.id.surveyTitle)
-    lateinit var surveyTitleView: TextView
+//    @BindView(R.id.surveyTitle)
+//    lateinit var surveyTitleView: TextView
+//
 
-    @BindView(R.id.surveyDescription)
-    lateinit var surveyDescriptionView: TextView
+    var surveyTitleView = itemView.findViewById<TextView>(R.id.surveyTitle)
+    var surveyDescriptionView = itemView.findViewById<TextView>(R.id.surveyDescription)
 
     fun updateSurveyValue(title: String, description: String) {
         surveyTitleView.text = title

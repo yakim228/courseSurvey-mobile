@@ -9,8 +9,11 @@ import com.ipnetinstitute.csc394.mobile.data.model.User_api_login
 import com.ipnetinstitute.csc394.mobile.data.model.User_app_login
 import com.ipnetinstitute.csc394.mobile.services.Constants.Companion.BASE_URL
 import com.ipnetinstitute.csc394.mobile.services.RestAPI
+import com.ipnetinstitute.csc394.mobile.services.RestAppBuilder
 import com.ipnetinstitute.csc394.mobile.ui.app.SurveyList
 import kotlinx.android.synthetic.main.activity_ui_login_activity.*
+import okhttp3.Interceptor
+import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -19,7 +22,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class Ui_login_activity : AppCompatActivity() {
 
-    lateinit var user_app_login: User_app_login
+    lateinit var userAppLogin: User_app_login
+    lateinit var userApiLogin: User_api_login
 
 //    lateinit var username: String
 //    lateinit var password: String
@@ -36,8 +40,8 @@ class Ui_login_activity : AppCompatActivity() {
             val passwordValue = password.editText!!.text.toString()
 //            Toast.makeText(this@Ui_login_activity, usernameValue, Toast.LENGTH_LONG).show()
 //            Toast.makeText(this@Ui_login_activity, passwordValue, Toast.LENGTH_LONG).show()
-            user_app_login = User_app_login(usernameValue, passwordValue)
-            login(user_app_login)
+            userAppLogin = User_app_login(usernameValue, passwordValue, false)
+            login(userAppLogin)
         }
     }
 
@@ -45,14 +49,11 @@ class Ui_login_activity : AppCompatActivity() {
 
 //        val BASEURL = "http://ec2-18-224-141-43.us-east-2.compute.amazonaws.com/services/"
 
-        val builder =
-            Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create())
-        val retrofit = builder.build()
-        val restAPI = retrofit.create(RestAPI::class.java)
-
+        val restAppBuilder = RestAppBuilder(false,"")
+        val restAPI = restAppBuilder.BuildService()
         val call = restAPI.login(userAppLogin)
 
-        var userApiLogin: User_api_login?
+//        var userApiLogin: User_api_login?
 
         call.enqueue(object : Callback<User_api_login> {
             override fun onFailure(call: Call<User_api_login>, t: Throwable) {
@@ -64,7 +65,7 @@ class Ui_login_activity : AppCompatActivity() {
                 response: Response<User_api_login>
             ) {
                 if (response.isSuccessful) {
-                    userApiLogin = response.body()
+                    userApiLogin = response.body() as User_api_login
                     Toast.makeText(this@Ui_login_activity, "Api Atteint", Toast.LENGTH_LONG).show()
                     val intent = Intent(this@Ui_login_activity, SurveyList::class.java)
                     intent.putExtra("user_token", userApiLogin!!.accessToken)

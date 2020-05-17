@@ -24,7 +24,7 @@ class ApiController {
         restAPI = retrofit.create(RestAPI::class.java)
 
 //        var user = User("Aleta","Givens","mvincentbb@nowhere.com","Manuel634","6KCA6E93G4C213XC0U"," 149-1442")
-        val userApp = User_app_login("mvincentbb", "vincent1234")
+        val userApp = User_app_login("mvincentbb", "vincent1234",false)
         val call = restAPI.login(userApp)
         status = "inside start"
 
