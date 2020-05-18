@@ -13,9 +13,10 @@ class RestAppBuilder(var userLogged: Boolean,var token: String) {
         val httpClient = OkHttpClient.Builder().addInterceptor(object : Interceptor {
             override fun intercept(chain: Interceptor.Chain): okhttp3.Response {
                 val ongoing = chain.request().newBuilder()
-                ongoing.addHeader("Accept", "application/json;versions=1")
+                ongoing.addHeader("Accept", "application/json")
+                ongoing.addHeader("Content-Type","application/json")
                 if (userLogged) {
-                    ongoing.addHeader("Authorization", token)
+                    ongoing.addHeader("Authorization", "Bearer $token")
                 }
                 return chain.proceed(ongoing.build())
             }

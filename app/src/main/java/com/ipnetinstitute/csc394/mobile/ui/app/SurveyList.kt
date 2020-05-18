@@ -1,6 +1,7 @@
 package com.ipnetinstitute.csc394.mobile.ui.app
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -70,6 +71,8 @@ class SurveyList : AppCompatActivity() {
 
         callSurvey.enqueue(object : Callback<List<Survey>> {
             override fun onFailure(call: Call<List<Survey>>, t: Throwable) {
+                Log.d("general failure", "$t.stackTrace")
+                Toast.makeText(this@SurveyList,"$t.stackTrace",Toast.LENGTH_LONG).show()
                 Toast.makeText(this@SurveyList, "Erreur de connexion", Toast.LENGTH_LONG).show()
             }
 
@@ -85,8 +88,12 @@ class SurveyList : AppCompatActivity() {
                     surveyListView.layoutManager = LinearLayoutManager(this@SurveyList)
                     val adapter = SurveyListAdapter(surveyList)
                     surveyListView.adapter = adapter
+                }else{
+                    Toast.makeText(this@SurveyList, "On response: errorcode : $response.code()",Toast.LENGTH_LONG).show()
                 }
             }
         })
+        Toast.makeText(this,"Taille de la liste :${surveyList.size}",Toast.LENGTH_LONG).show()
+        Log.d("Taille de la liste:","${surveyList.size}")
     }
 }
