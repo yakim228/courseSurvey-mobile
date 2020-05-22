@@ -2,6 +2,7 @@ package com.ipnetinstitute.csc394.mobile.ui.login
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.ipnetinstitute.csc394.mobile.R
@@ -57,6 +58,8 @@ class Ui_login_activity : AppCompatActivity() {
 
         call.enqueue(object : Callback<User_api_login> {
             override fun onFailure(call: Call<User_api_login>, t: Throwable) {
+                Log.d("login_error", "${t.message}")
+                Log.d("throwable","${t.stackTrace}")
                 Toast.makeText(this@Ui_login_activity, "Api Non atteint", Toast.LENGTH_LONG).show()
             }
 

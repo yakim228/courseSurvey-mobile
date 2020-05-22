@@ -71,6 +71,7 @@ class SurveyList : AppCompatActivity() {
 
         callSurvey.enqueue(object : Callback<List<Survey>> {
             override fun onFailure(call: Call<List<Survey>>, t: Throwable) {
+                Log.d("general f", "${t.message}")
                 Log.d("general failure", "$t.stackTrace")
                 Toast.makeText(this@SurveyList,"$t.stackTrace",Toast.LENGTH_LONG).show()
                 Toast.makeText(this@SurveyList, "Erreur de connexion", Toast.LENGTH_LONG).show()
@@ -82,9 +83,10 @@ class SurveyList : AppCompatActivity() {
             ) {
                 if (response.isSuccessful) {
                     Toast.makeText(this@SurveyList, "Inside surveys", Toast.LENGTH_LONG).show()
-                    Toast.makeText(this@SurveyList, surveyList[0].title, Toast.LENGTH_LONG).show()
+                    Log.d("general success", "$response")
 
                     surveyList = response.body() as ArrayList<Survey>
+                    Toast.makeText(this@SurveyList, surveyList[0].title, Toast.LENGTH_LONG).show()
                     surveyListView.layoutManager = LinearLayoutManager(this@SurveyList)
                     val adapter = SurveyListAdapter(surveyList)
                     surveyListView.adapter = adapter
