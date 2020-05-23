@@ -4,25 +4,16 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ipnetinstitute.csc394.mobile.R
 import com.ipnetinstitute.csc394.mobile.data.model.Survey
-import com.ipnetinstitute.csc394.mobile.services.Constants.Companion.BASE_URL
-import com.ipnetinstitute.csc394.mobile.services.RestAppAPI
 import com.ipnetinstitute.csc394.mobile.services.RestAppBuilder
 import kotlinx.android.synthetic.main.activity_survey_list.*
-import okhttp3.Interceptor
-import okhttp3.OkHttpClient
-import okhttp3.Response
 import retrofit2.Call
 import retrofit2.Callback
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import java.util.*
 import kotlin.collections.ArrayList
 
-class SurveyList : AppCompatActivity() {
+class SurveyList : AppCompatActivity() , SurveyListAdapter.OnItemClickListener{
 //    @BindView(R.id.surveyList) lateinit  var recyclerView: RecyclerView
     var userId= 0
     lateinit var userToken: String
@@ -88,7 +79,7 @@ class SurveyList : AppCompatActivity() {
                     surveyList = response.body() as ArrayList<Survey>
                     Toast.makeText(this@SurveyList, surveyList[0].title, Toast.LENGTH_LONG).show()
                     surveyListView.layoutManager = LinearLayoutManager(this@SurveyList)
-                    val adapter = SurveyListAdapter(surveyList)
+                    val adapter = SurveyListAdapter(surveyList,this@SurveyList)
                     surveyListView.adapter = adapter
                 }else{
                     Toast.makeText(this@SurveyList, "On response: errorcode : $response.code()",Toast.LENGTH_LONG).show()
@@ -97,5 +88,9 @@ class SurveyList : AppCompatActivity() {
         })
         Toast.makeText(this,"Taille de la liste :${surveyList.size}",Toast.LENGTH_LONG).show()
         Log.d("Taille de la liste:","${surveyList.size}")
+    }
+
+    override fun onItemClicked(survey: Survey) {
+        TODO("Not yet implemented")
     }
 }

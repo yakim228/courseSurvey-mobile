@@ -1,30 +1,29 @@
 package com.ipnetinstitute.csc394.mobile.ui.login
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.ipnetinstitute.csc394.mobile.MainActivity
 import com.ipnetinstitute.csc394.mobile.R
 import com.ipnetinstitute.csc394.mobile.data.model.User_api_login
 import com.ipnetinstitute.csc394.mobile.data.model.User_app_login
-import com.ipnetinstitute.csc394.mobile.services.Constants.Companion.BASE_URL
-import com.ipnetinstitute.csc394.mobile.services.RestAPI
+import com.ipnetinstitute.csc394.mobile.services.Constants
 import com.ipnetinstitute.csc394.mobile.services.RestAppBuilder
 import com.ipnetinstitute.csc394.mobile.ui.app.SurveyList
 import kotlinx.android.synthetic.main.activity_ui_login_activity.*
-import okhttp3.Interceptor
-import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 class Ui_login_activity : AppCompatActivity() {
 
     lateinit var userAppLogin: User_app_login
     lateinit var userApiLogin: User_api_login
+    lateinit var editor: SharedPreferences.Editor
 
 //    lateinit var username: String
 //    lateinit var password: String
@@ -34,6 +33,7 @@ class Ui_login_activity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ui_login_activity)
+        editor = getSharedPreferences(Constants.PREFS_NAME, Context.MODE_PRIVATE).edit()
 
 
         login_btn.setOnClickListener {
@@ -69,10 +69,19 @@ class Ui_login_activity : AppCompatActivity() {
             ) {
                 if (response.isSuccessful) {
                     userApiLogin = response.body() as User_api_login
+
+                    editor.putString("surveyUser",userApiLogin.username)
+                    editor.putString("surveyUserPassword",userAppLogin.password)
+                    editor.putString("surveyUserToken",userApiLogin.accessToken)
+                    editor.putInt("surveyUserId",userApiLogin.id)
+
+
+                    editor.apply()
+
                     Toast.makeText(this@Ui_login_activity, "Api Atteint", Toast.LENGTH_LONG).show()
-                    val intent = Intent(this@Ui_login_activity, SurveyList::class.java)
-                    intent.putExtra("user_token", userApiLogin!!.accessToken)
-                    intent.putExtra("user_id", userApiLogin!!.id)
+                    val intent = Intent(this@Ui_login_activity, MainActivity::class.java)
+//                    intent.putExtra("user_token", userApiLogin!!.accessToken)
+//                    intent.putExtra("user_id", userApiLogin!!.id)
                     startActivity(intent)
                 }
             }
