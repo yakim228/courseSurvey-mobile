@@ -7,8 +7,10 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.ipnetinstitute.csc394.mobile.AdminActivity
 import com.ipnetinstitute.csc394.mobile.MainActivity
 import com.ipnetinstitute.csc394.mobile.R
+import com.ipnetinstitute.csc394.mobile.TeacherActivity
 import com.ipnetinstitute.csc394.mobile.data.model.User_api_login
 import com.ipnetinstitute.csc394.mobile.data.model.User_app_login
 import com.ipnetinstitute.csc394.mobile.services.Constants
@@ -24,6 +26,7 @@ class Ui_login_activity : AppCompatActivity() {
     lateinit var userAppLogin: User_app_login
     lateinit var userApiLogin: User_api_login
     lateinit var editor: SharedPreferences.Editor
+    val sharedPreferences = getSharedPreferences(Constants.PREFS_NAME, Context.MODE_PRIVATE)
 
 //    lateinit var username: String
 //    lateinit var password: String
@@ -33,7 +36,7 @@ class Ui_login_activity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ui_login_activity)
-        editor = getSharedPreferences(Constants.PREFS_NAME, Context.MODE_PRIVATE).edit()
+        editor = sharedPreferences.edit()
 
 
         login_btn.setOnClickListener {
@@ -74,15 +77,24 @@ class Ui_login_activity : AppCompatActivity() {
                     editor.putString("surveyUserPassword",userAppLogin.password)
                     editor.putString("surveyUserToken",userApiLogin.accessToken)
                     editor.putInt("surveyUserId",userApiLogin.id)
-
+                    editor.putString("userRole",userApiLogin.roles[0])
 
                     editor.apply()
 
                     Toast.makeText(this@Ui_login_activity, "Api Atteint", Toast.LENGTH_LONG).show()
+                    val intent_teacher = Intent(this@Ui_login_activity, TeacherActivity::class.java)
+                    val intent_admin = Intent(this@Ui_login_activity, AdminActivity::class.java)
                     val intent = Intent(this@Ui_login_activity, MainActivity::class.java)
 //                    intent.putExtra("user_token", userApiLogin!!.accessToken)
 //                    intent.putExtra("user_id", userApiLogin!!.id)
-                    startActivity(intent)
+
+                    when (sharedPreferences.getString("userRole", "user")) {
+                        "admin" -> startActivity(intent_admin)
+                        "teacher" -> startActivity(intent_teacher)
+                        else -> {
+                            startActivity(intent)
+                        }
+                    }
                 }
             }
         })
