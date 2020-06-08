@@ -1,10 +1,8 @@
 package com.ipnetinstitute.csc394.mobile.services
 
-import com.ipnetinstitute.csc394.mobile.data.model.Question
-import com.ipnetinstitute.csc394.mobile.data.model.Survey
-import com.ipnetinstitute.csc394.mobile.data.model.User_api_login
-import com.ipnetinstitute.csc394.mobile.data.model.User_app_login
+import com.ipnetinstitute.csc394.mobile.data.model.*
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -14,7 +12,7 @@ interface RestAPI {
 
     //sign in
     @POST("api/auth/signin")
-    fun login(@Body body: User_app_login): Call<User_api_login>
+    fun login(@Body body: UserAppLogin): Call<User_api_login>
 
     //List of survey
     @GET("getPendingSurvey/{student_id}")
@@ -22,10 +20,14 @@ interface RestAPI {
 
 
     //List of questions
-    @GET("getPendingSurveyQuestions/{question_id}/{student_id}")
+    @GET("getPendingSurveyQuestions/{survey_id}/{student_id}")
     fun getQuestions(
-        @Path("question_id") question_id: Long,
-        @Path("student_id") student_id: Long
+        @Path("survey_id") survey_id: Int,
+        @Path("student_id") student_id: Int
     ): Call<List<Question>>
+
+    @POST("save/StudentSurvey")
+    fun rateSurvey(@Body body: StudentSurvey): Call<Response<Any>>
+    
 
 }
