@@ -69,7 +69,9 @@ class UiLoginActivity : AppCompatActivity() {
                     editor.putString("surveyUserPassword",userAppLogin.password)
                     editor.putString("surveyUserToken",userApiLogin.accessToken)
                     editor.putInt("surveyUserId",userApiLogin.id)
-                    editor.putString("userRole",userApiLogin.roles[0].name)
+                    if (userApiLogin.roles.isNotEmpty()) {
+                        editor.putString("userRole",userApiLogin.roles[0].name)
+                    }
 
                     editor.apply()
 

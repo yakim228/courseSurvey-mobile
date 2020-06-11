@@ -3,7 +3,6 @@ package com.ipnetinstitute.csc394.mobile.ui.app
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,11 +10,9 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.ipnetinstitute.csc394.mobile.R
 import com.ipnetinstitute.csc394.mobile.data.model.Question
 import com.ipnetinstitute.csc394.mobile.data.model.StudentSurvey
-import com.ipnetinstitute.csc394.mobile.data.model.Survey
 import com.ipnetinstitute.csc394.mobile.services.Constants
 import com.ipnetinstitute.csc394.mobile.services.RestAppBuilder
 import retrofit2.Call
@@ -33,11 +30,11 @@ class QuestionsDisplay : Fragment() {
     private lateinit var rating: Number
     private lateinit var studentSurvey: StudentSurvey
 
-    private lateinit var t_btn: Button
-    private lateinit var s_btn: Button
-    private lateinit var a_btn: Button
-    private lateinit var p_btn: Button
-    private lateinit var m_btn: Button
+    private lateinit var tBtn: Button
+    private lateinit var sBtn: Button
+    private lateinit var aBtn: Button
+    private lateinit var pBtn: Button
+    private lateinit var mBtn: Button
 
     private lateinit var questionContent: TextView
     private lateinit var surveyId: Number
@@ -48,26 +45,26 @@ class QuestionsDisplay : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.questions_fragment, container, false)
         questionContent = view.findViewById(R.id.question_content)
-        t_btn = view.findViewById(R.id.t_btn)
-        s_btn = view.findViewById(R.id.s_btn)
-        a_btn = view.findViewById(R.id.a_btn)
-        p_btn = view.findViewById(R.id.p_btn)
-        m_btn = view.findViewById(R.id.m_btn)
+        tBtn = view.findViewById(R.id.t_btn)
+        sBtn = view.findViewById(R.id.s_btn)
+        aBtn = view.findViewById(R.id.a_btn)
+        pBtn = view.findViewById(R.id.p_btn)
+        mBtn = view.findViewById(R.id.m_btn)
 
-        t_btn.setOnClickListener {
-            rateQuestion(t_btn)
+        tBtn.setOnClickListener {
+            rateQuestion(tBtn)
         }
-        s_btn.setOnClickListener {
-            rateQuestion(s_btn)
+        sBtn.setOnClickListener {
+            rateQuestion(sBtn)
         }
-        a_btn.setOnClickListener {
-            rateQuestion(a_btn)
+        aBtn.setOnClickListener {
+            rateQuestion(aBtn)
         }
-        p_btn.setOnClickListener {
-            rateQuestion(p_btn)
+        pBtn.setOnClickListener {
+            rateQuestion(pBtn)
         }
-        m_btn.setOnClickListener {
-            rateQuestion(m_btn)
+        mBtn.setOnClickListener {
+            rateQuestion(mBtn)
         }
 
         getQuestion()
@@ -87,7 +84,7 @@ class QuestionsDisplay : Fragment() {
         }
     }
 
-    fun getQuestion(){
+    private fun getQuestion(){
         val restAppBuilder = RestAppBuilder(true,userToken)
         val restAppAPI = restAppBuilder.BuildService()
 
@@ -109,7 +106,7 @@ class QuestionsDisplay : Fragment() {
         })
     }
 
-    fun rateQuestion(view: View){
+    private fun rateQuestion(view: View){
         when(view.id){
             R.id.t_btn ->{
                 Toast.makeText(activity, "T btn clicked", Toast.LENGTH_LONG).show()
