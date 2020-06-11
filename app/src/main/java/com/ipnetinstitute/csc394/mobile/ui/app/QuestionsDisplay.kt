@@ -111,31 +111,31 @@ class QuestionsDisplay : Fragment() {
             R.id.t_btn ->{
                 Toast.makeText(activity, "T btn clicked", Toast.LENGTH_LONG).show()
                 val rating = 5
-                val studentSurvey = StudentSurvey(surveyId.toInt(), userId.toInt(), question.id,"", 0, rating, 0,Date(2020,6,6), Date(2020,6,6),52)
+                val studentSurvey = StudentSurvey("student_survey", surveyId.toInt(), userId.toInt(), question.id,"", 0, rating, 0,Date(2020,6,6), Date(2020,6,6),52)
                 rate(studentSurvey)
             }
             R.id.s_btn ->{
                 Toast.makeText(activity, "S btn clicked", Toast.LENGTH_LONG).show()
                 val rating = 4
-                val studentSurvey = StudentSurvey(surveyId.toInt(), userId.toInt(), question.id,"", 0, rating, 0,Date(2020,6,6), Date(2020,6,6),52)
+                val studentSurvey = StudentSurvey("student_survey", surveyId.toInt(), userId.toInt(), question.id,"", 0, rating, 0,Date(2020,6,6), Date(2020,6,6),52)
                 rate(studentSurvey)
             }
             R.id.a_btn ->{
                 Toast.makeText(activity, "A btn clicked", Toast.LENGTH_LONG).show()
                 val rating = 3
-                val studentSurvey = StudentSurvey(surveyId.toInt(), userId.toInt(), question.id,"", 0, rating, 0,Date(2020,6,6), Date(2020,6,6),52)
+                val studentSurvey = StudentSurvey("student_survey", surveyId.toInt(), userId.toInt(), question.id,"", 0, rating, 0,Date(2020,6,6), Date(2020,6,6),52)
                 rate(studentSurvey)
             }
             R.id.p_btn ->{
                 Toast.makeText(activity, "P btn clicked", Toast.LENGTH_LONG).show()
                 val rating = 2
-                val studentSurvey = StudentSurvey(surveyId.toInt(), userId.toInt(), question.id,"", 0, rating, 0,Date(2020,6,6), Date(2020,6,6),52)
+                val studentSurvey = StudentSurvey("student_survey", surveyId.toInt(), userId.toInt(), question.id,"", 0, rating, 0,Date(2020,6,6), Date(2020,6,6),52)
                 rate(studentSurvey)
             }
             R.id.m_btn ->{
                 Toast.makeText(activity, "M btn clicked", Toast.LENGTH_LONG).show()
                 val rating = 1
-                val studentSurvey = StudentSurvey(surveyId.toInt(), userId.toInt(), question.id,"", 0, rating, 0,Date(2020,6,6), Date(2020,6,6),52)
+                val studentSurvey = StudentSurvey("student_survey",surveyId.toInt(), userId.toInt(), question.id,"", 0, rating, 0,Date(2020,6,6), Date(2020,6,6),52)
                 rate(studentSurvey)
 
             }
@@ -143,7 +143,15 @@ class QuestionsDisplay : Fragment() {
         }
     }
 
-    fun rate (studentSurvey: StudentSurvey){
+    fun returnToSurveyList(){
+        val fragmentTransaction = activity!!.supportFragmentManager.beginTransaction()
+        val pendingSurveyList = PendingSurveyList()
+        fragmentTransaction.replace(R.id.fragment_container, pendingSurveyList)
+//        fragmentTransaction.addToBackStack("questions")
+        fragmentTransaction.commit()
+    }
+
+    private fun rate (studentSurvey: StudentSurvey){
         val restAppBuilder = RestAppBuilder(true,userToken)
         val restAppAPI = restAppBuilder.BuildService()
         val callRate = restAppAPI.rateSurvey(studentSurvey)
@@ -155,6 +163,7 @@ class QuestionsDisplay : Fragment() {
 
             override fun onResponse(call: Call<Response<Any>>, response: Response<Response<Any>>) {
                 Toast.makeText(activity, "Saved", Toast.LENGTH_LONG).show()
+                returnToSurveyList()
             }
 
         })

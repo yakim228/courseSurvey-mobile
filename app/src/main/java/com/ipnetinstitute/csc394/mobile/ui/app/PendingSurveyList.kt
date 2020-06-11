@@ -65,7 +65,7 @@ class PendingSurveyList : Fragment(), SurveyListAdapter.OnItemClickListener {
     }
 
     override fun onItemClicked(survey: Survey) {
-        val surveyId = surveyList.indexOf(survey)
+        val surveyId = survey.id
         Toast.makeText(activity, "Index du survey: $surveyId", Toast.LENGTH_LONG).show()
         val questionsDisplay = QuestionsDisplay()
         val fragmentTransaction = activity!!.supportFragmentManager.beginTransaction()
