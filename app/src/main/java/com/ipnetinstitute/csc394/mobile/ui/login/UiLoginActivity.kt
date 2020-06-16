@@ -47,7 +47,7 @@ class UiLoginActivity : AppCompatActivity() {
     fun login(userAppLogin: UserAppLogin) {
 //        val BASEURL = "http://ec2-18-224-141-43.us-east-2.compute.amazonaws.com/services/"
         val restAppBuilder = RestAppBuilder(false,"")
-        val restAPI = restAppBuilder.BuildService()
+        val restAPI = restAppBuilder.buildService()
         val call = restAPI.login(userAppLogin)
 //        var userApiLogin: User_api_login?
 

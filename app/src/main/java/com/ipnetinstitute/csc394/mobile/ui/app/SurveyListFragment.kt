@@ -15,11 +15,8 @@ import com.ipnetinstitute.csc394.mobile.R
 import com.ipnetinstitute.csc394.mobile.data.model.Survey
 import com.ipnetinstitute.csc394.mobile.services.Constants
 import com.ipnetinstitute.csc394.mobile.services.RestAppBuilder
-import kotlinx.android.synthetic.main.activity_survey_list.*
-import kotlinx.android.synthetic.main.fragment_survey_list.*
 import retrofit2.Call
 import retrofit2.Callback
-import java.util.*
 import kotlin.collections.ArrayList
 
 class SurveyListFragment: Fragment() , SurveyListAdapter.OnItemClickListener{
@@ -75,7 +72,7 @@ class SurveyListFragment: Fragment() , SurveyListAdapter.OnItemClickListener{
 
     fun getSurvey(){
         val restAppBuilder = RestAppBuilder(true, userToken)
-        val restAppAPI = restAppBuilder.BuildService()
+        val restAppAPI = restAppBuilder.buildService()
 
         //Rest callings
         val callSurvey = restAppAPI.getSurvey(userId as Int)

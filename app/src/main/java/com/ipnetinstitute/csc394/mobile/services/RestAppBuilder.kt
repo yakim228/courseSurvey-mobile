@@ -8,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class RestAppBuilder(var userLogged: Boolean,var token: String) {
 
-    fun BuildService(): RestAPI{
+    fun buildService(): RestAPI{
 
         val httpClient = OkHttpClient.Builder().addInterceptor(object : Interceptor {
             override fun intercept(chain: Interceptor.Chain): okhttp3.Response {

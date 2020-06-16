@@ -3,6 +3,7 @@ package com.ipnetinstitute.csc394.mobile.ui.app
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -86,7 +87,7 @@ class QuestionsDisplay : Fragment() {
 
     private fun getQuestion(){
         val restAppBuilder = RestAppBuilder(true,userToken)
-        val restAppAPI = restAppBuilder.BuildService()
+        val restAppAPI = restAppBuilder.buildService()
 
         val callQuestions = restAppAPI.getQuestions(surveyId.toInt(), userId.toInt())
         callQuestions.enqueue(object : Callback<List<Question>> {
@@ -100,8 +101,10 @@ class QuestionsDisplay : Fragment() {
             ) {
                 questionsList = response.body() as ArrayList<Question>
 //                Toast.makeText(activity, "Liste des questions $questionsList",Toast.LENGTH_LONG).show()
+
                 question = questionsList[0]
                 questionContent.text = question.title
+
             }
         })
     }
@@ -153,12 +156,14 @@ class QuestionsDisplay : Fragment() {
 
     private fun rate (studentSurvey: StudentSurvey){
         val restAppBuilder = RestAppBuilder(true,userToken)
-        val restAppAPI = restAppBuilder.BuildService()
+        val restAppAPI = restAppBuilder.buildService()
         val callRate = restAppAPI.rateSurvey(studentSurvey)
 
         callRate.enqueue(object : Callback<Response<Any>> {
             override fun onFailure(call: Call<Response<Any>>, t: Throwable) {
                 Toast.makeText(activity, "not saved", Toast.LENGTH_LONG).show()
+                Log.d("Question failure", "$t.stackTrace")
+
             }
 
             override fun onResponse(call: Call<Response<Any>>, response: Response<Response<Any>>) {

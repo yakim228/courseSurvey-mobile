@@ -54,7 +54,7 @@ class SurveyList : AppCompatActivity() , SurveyListAdapter.OnItemClickListener{
 
     fun getSurvey(){
         val restAppBuilder = RestAppBuilder(true, userToken)
-        val restAppAPI = restAppBuilder.BuildService()
+        val restAppAPI = restAppBuilder.buildService()
 
         //Rest callings
         val callSurvey = restAppAPI.getSurvey(userId)

@@ -3,7 +3,6 @@ package com.ipnetinstitute.csc394.mobile.ui.app
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +16,6 @@ import com.ipnetinstitute.csc394.mobile.services.Constants
 import com.ipnetinstitute.csc394.mobile.services.RestAppBuilder
 import retrofit2.Call
 import retrofit2.Callback
-import java.util.*
 import kotlin.collections.ArrayList
 
 class PendingSurveyList : Fragment(), SurveyListAdapter.OnItemClickListener {
@@ -70,7 +68,7 @@ class PendingSurveyList : Fragment(), SurveyListAdapter.OnItemClickListener {
         val questionsDisplay = QuestionsDisplay()
         val fragmentTransaction = activity!!.supportFragmentManager.beginTransaction()
         val bundle = Bundle()
-        bundle.putInt(getString(R.string.pending) , surveyId + 1)
+        bundle.putInt(getString(R.string.pending) , surveyId )
         questionsDisplay.arguments = bundle
         fragmentTransaction.replace(R.id.fragment_container, questionsDisplay)
         fragmentTransaction.addToBackStack("questions")
@@ -79,11 +77,10 @@ class PendingSurveyList : Fragment(), SurveyListAdapter.OnItemClickListener {
 
     fun getSurvey(){
         val restAppBuilder = RestAppBuilder(true, userToken)
-        val restAppAPI = restAppBuilder.BuildService()
+        val restAppAPI = restAppBuilder.buildService()
 
         //Rest callings
         val callSurvey = restAppAPI.getSurvey(userId as Int)
-//        Toast.makeText(activity,"Inside the rest calling method",Toast.LENGTH_LONG).show()
 
         callSurvey.enqueue(object : Callback<List<Survey>> {
             override fun onFailure(call: Call<List<Survey>>, t: Throwable) {
